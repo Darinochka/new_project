@@ -3,113 +3,149 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  static const String _title = 'Flutter code Sample';
+
   @override
   Widget build(BuildContext context) {
-    Widget titleSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Row(
-        children: [
-          Expanded(
-            /*1*/
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /*2*/
-                Container(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    'Oeschinen Lake Campground',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Text(
-                  'Kandersteg Switzerland',
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          /*3*/
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          Text('41'),
-        ],
-      ),
-    );
-    
-    Color color = Theme.of(context).primaryColor;
-
-    Widget buttonSection = Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildButtonColumn(color, Icons.call, 'CALL'),
-          _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
-          _buildButtonColumn(color, Icons.share, 'SHARE'),
-        ],
-      ),
-    );
-
-    Widget textSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Text(
-        'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
-            'Alps. Situated 1,578 meters above sea level, it is one of the '
-            'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
-            'half-hour walk through pastures and pine forest, leads you to the '
-            'lake, which warms to 20 degrees Celsius in the summer. Activities '
-            'enjoyed here include rowing, and riding the summer toboggan run.',
-        softWrap: true,
-      ),
-    );
-
     return MaterialApp(
-      title: 'Flutter layout demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter layout demo'),
-        ),
-        body: ListView(
-          children: [
-            Image.asset(
-              'images/lake.jpg',
-              width: 600,
-              height: 240,
-              fit: BoxFit.cover,
-            ),
-            titleSection,
-            buttonSection,
-            textSection,
-          ],
-        ),
+      title: _title,
+      home: HomeApp(),
+    );
+  }
+}
+
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+final colorBlue = Color.fromRGBO(123, 104, 238, 1);
+bool checkSignIn = false;
+
+class HomeApp extends StatefulWidget {
+  @override
+  _HomeAppState createState() => _HomeAppState();
+}
+
+class _HomeAppState extends State<HomeApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: scaffoldKey,
+      appBar: AppBar(
+        title: const Text('EzPy'),
+        backgroundColor: colorBlue,
+        actions: <Widget>[
+          IconSignIn(),
+        ],
       ),
     );
   }
+}
+
+
+class IconSignIn extends StatefulWidget {
+  @override
+  _IconSignInState createState() => _IconSignInState();
+}
+
+class _IconSignInState extends State<IconSignIn> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: IconButton(
+        icon: Icon(checkSignIn ? Icons.exit_to_app : Icons.person),
+        tooltip: 'Sign in',
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SignIn()),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class SignIn extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+
   
-  Column _buildButtonColumn(Color color, IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: color),
-        Container(
-          margin: const EdgeInsets.only(top: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: color,
-            ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Sign in"),
+        backgroundColor: colorBlue,
+      ),
+      body: Center(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Enter your email',
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+                width: 300,
+              ),
+              Container(
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Enter your password',
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  obscureText: true,
+                ),
+                width: 300,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                            MaterialStateProperty.all<Color>(
+                              Color.fromRGBO(60, 179, 113, 1))),
+                        onPressed: () {
+                          checkSignIn = _formKey.currentState.validate();
+                        },
+                         child: Text('Sign in'),
+                      ),
+                      padding: new EdgeInsets.all(10.0),
+                    ),
+                    Container(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                            MaterialStateProperty.all<Color>(
+                              Color.fromRGBO(30, 144, 255, 1))),
+                        onPressed: () {},
+                        child: Text('Login'),
+                      ),
+                      padding: new EdgeInsets.all(10.0),
+                    ),
+                  ]
+                )
+              ),
+            ],
           ),
-        ),
-      ],
+        )
+      )
     );
   }
 }

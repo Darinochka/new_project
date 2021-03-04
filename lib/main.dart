@@ -76,12 +76,12 @@ class SignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     final key = context.watch<ChangeIcon>();
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Sign in"),
-          backgroundColor: colorBlue,
-        ),
-        body: Center(
-            child: Form(
+      appBar: AppBar(
+        title: Text("Sign in"),
+        backgroundColor: colorBlue,
+      ),
+      body: Center(
+        child: Form(
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -117,39 +117,45 @@ class SignIn extends StatelessWidget {
                 width: 300,
               ),
               Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Color.fromRGBO(60, 179, 113, 1))),
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                key.change();
-                              }
-                            },
-                            child: Text('Sign in'),
-                          ),
-                          padding: new EdgeInsets.all(10.0),
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                            MaterialStateProperty.all<Color>(
+                              Color.fromRGBO(60, 179, 113, 1))
                         ),
-                        Container(
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Color.fromRGBO(30, 144, 255, 1))),
-                            onPressed: () {},
-                            child: Text('Login'),
-                          ),
-                          padding: new EdgeInsets.all(10.0),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            key.change();
+                          }
+                        },
+                        child: Text('Sign in'),
+                      ),
+                      padding: new EdgeInsets.all(10.0),
+                    ),
+                    Container(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                            MaterialStateProperty.all<Color>(
+                              Color.fromRGBO(30, 144, 255, 1))
                         ),
-                      ])),
+                        onPressed: () {},
+                        child: Text('Login'),
+                      ),
+                      padding: new EdgeInsets.all(10.0),
+                    ),
+                  ]
+                )
+              ),
             ],
           ),
-        )));
+        )
+      )
+    );
   }
 }
